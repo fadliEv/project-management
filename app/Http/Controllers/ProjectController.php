@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Models\Task;
 
 class ProjectController extends Controller
 {
@@ -57,24 +58,32 @@ class ProjectController extends Controller
     }
 
     public function edit(Project $project)
-    {
-        return view('projects.edit', compact('project'));
+{
+    return view('projects.edit', compact('project'));
+}
+
+public function update(Request $request, Project $project)
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'start_date' => 'nullable|date',
+        'due_date' => 'nullable|date|after_or_equal:start_date',
+        'status' => 'required|in:active,completed,canceled',
+        'tasks' => 'nullable|array',
+        'tasks.*.status' => 'required|in:not_started,in_progress,completed'
+    ]);
+
+    $project->update($validatedData);
+
+    if (!empty($validatedData['tasks'])) {
+        foreach ($validatedData['tasks'] as $taskId => $taskData) {
+            Task::where('id', $taskId)->update(['status' => $taskData['status']]);
+        }
     }
 
-    public function update(Request $request, Project $project)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'start_date' => 'nullable|date',
-            'due_date' => 'nullable|date|after_or_equal:start_date',
-            'status' => 'required|in:active,completed,canceled'
-        ]);
-
-        $project->update($validatedData);
-
-        return redirect()->route('projects.show', $project);
-    }
+    return redirect()->route('projects.index')->with('success', 'Proyek berhasil diperbarui.');
+}
 
     public function destroy(Project $project)
     {

@@ -8,3 +8,4 @@ Route::get('/', function () {
 });
 
 Route::resource('projects', ProjectController::class);
+Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');

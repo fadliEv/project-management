@@ -5,7 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white">Tambah Proyek</div>
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Tambah Proyek</h5>
+                        <a href="{{ route('projects.index') }}" class="btn btn-light btn-sm">
+                            <i class="bi bi-arrow-left"></i> Kembali
+                        </a>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('projects.store') }}">
