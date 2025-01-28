@@ -2,46 +2,38 @@
 
 @section('content')
 <div class="container">
-    <div class="row mb-3">
-        <div class="col-md-12 d-flex justify-content-between align-items-center">
-            <h4 class="fw-bold">Projects Management</h4>
-            <a href="{{ route('projects.create') }}" class="btn btn-primary">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-4 text-center">Management Proyek</h3>
+        <a href="{{ route('projects.create') }}" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> Tambah Proyek
             </a>
-        </div>
     </div>
 
-    @if ($projects->count() > 0)
-        <div class="table-responsive">
-            <table class="table table-light table-bordered table-hover align-middle">
-                <thead class="">
+    <div class="card shadow">
+        <div class="card-body">
+            <table id="projectsTable" class="table table-hover table-striped py-3 table-bordered border-radius">
+                <thead class="table-dark">
                     <tr>
                         <th>Nama Proyek</th>
-                        <th>Deskripsi</th>
+                        <th>Status</th>
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Selesai</th>
-                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($projects as $project)
                         <tr>
-                            <td class="fw-bold">{{ $project->name }}</td>
-                            <td>{{ Str::limit($project->description, 50) }}</td>
+                            <td>{{ $project->name }}</td>
+                            <td>
+                                <span class="badge bg-{{ $project->status == 'active' ? 'success' : ($project->status == 'completed' ? 'primary' : 'danger') }}">
+                                    {{ ucfirst($project->status) }}
+                                </span>
+                            </td>
                             <td>{{ $project->start_date ?? '-' }}</td>
                             <td>{{ $project->due_date ?? '-' }}</td>
                             <td>
-                                @if($project->status == 'active')
-                                    <span class="badge bg-success">Aktif</span>
-                                @elseif($project->status == 'completed')
-                                    <span class="badge bg-primary">Selesai</span>
-                                @else
-                                    <span class="badge bg-danger">Dibatalkan</span>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('projects.show', $project) }}" class="btn btn-sm btn-info text-white">
+                            <a href="{{ route('projects.show', $project) }}" class="btn btn-sm btn-info text-white">
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 <a href="{{ route('projects.edit', $project) }}" class="btn btn-sm btn-warning text-white">
@@ -60,10 +52,36 @@
                 </tbody>
             </table>
         </div>
-    @else
-        <div class="alert alert-info text-center">
-            <i class="bi bi-exclamation-circle"></i> Tidak ada proyek yang ditemukan.
-        </div>
-    @endif
+    </div>
 </div>
+
+<!-- Tambahkan jQuery dan DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#projectsTable').DataTable({
+            "paging": true,       // Aktifkan Pagination
+            "ordering": true,     // Aktifkan Sorting
+            "searching": true,    // Aktifkan Search
+            "lengthMenu": [5, 10, 25, 50], // Opsi jumlah data per halaman
+            "language": {
+                "lengthMenu": "Show _MENU_",
+                "zeroRecords": "Tidak ada proyek ditemukan",
+                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                "infoEmpty": "Tidak ada data tersedia",
+                "search": "Cari:",
+                "paginate": {
+                    "next": "Prev",
+                    "previous": "Next"
+                }
+            },
+            "columnDefs": [
+                { "orderable": false, "targets": 4 } // Nonaktifkan sorting di kolom aksi
+            ]
+        });
+    });
+</script>
 @endsection
