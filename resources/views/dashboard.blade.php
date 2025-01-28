@@ -2,6 +2,32 @@
 
 @section('content')
 <div class="container">
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    @foreach($upcomingProjects as $project)
+        <div class="toast show text-bg-danger" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto">Peringatan Proyek</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                Proyek <strong>{{ $project->name }}</strong> memiliki deadline pada <strong>{{ $project->due_date }}</strong>.
+            </div>
+        </div>
+    @endforeach
+
+    @foreach($upcomingTasks as $task)
+        <div class="toast show text-bg-warning" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto">Peringatan Tugas</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                Tugas <strong>{{ $task->name }}</strong> harus diselesaikan sebelum <strong>{{ $task->due_date }}</strong>.
+            </div>
+        </div>
+    @endforeach
+</div>
+
     <h2 class="mb-4">Selamat Datang Binusian</h2>
 
     <div class="row">
@@ -148,6 +174,13 @@
             }]
         },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        let toastList = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl, { autohide: false }).show()
+        })
     });
 </script>
 @endsection

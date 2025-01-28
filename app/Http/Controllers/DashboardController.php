@@ -52,6 +52,18 @@ class DashboardController extends Controller
             'data' => [$notStartedTasks, $inProgressTasks, $completedTasks],
             'colors' => ['#6c757d', '#ffc107', '#28a745'],
         ];
+
+         // Ambil proyek yang deadline dalam 7 hari ke depan
+         $upcomingProjects = Project::where('due_date', '>=', Carbon::now())
+         ->where('due_date', '<=', Carbon::now()->addDays(7))
+         ->where('status', 'active')
+         ->get();
+
+        // Ambil tugas yang deadline dalam 7 hari ke depan
+        $upcomingTasks = Task::where('due_date', '>=', Carbon::now())
+        ->where('due_date', '<=', Carbon::now()->addDays(7))
+        ->where('status', 'not_started')
+        ->get();
     
         return view('dashboard', compact(
             'totalProjects', 
@@ -59,7 +71,9 @@ class DashboardController extends Controller
             'barChartData', 
             'months', 
             'projectsByMonth', 
-            'taskChartData'
+            'taskChartData',
+            'upcomingProjects',
+            'upcomingTasks'
         ));
     }
 }
