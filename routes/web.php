@@ -2,10 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\DashboardController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('projects', ProjectController::class);
-Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');

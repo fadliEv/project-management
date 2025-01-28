@@ -78,7 +78,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h4 class="text-center">Admin Panel</h4>
-        <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">
+            <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">
             <i class="bi bi-house-door-fill"></i> Dashboard
         </a>
         <a href="{{ route('projects.index') }}" class="{{ request()->is('projects*') ? 'active' : '' }}">
