@@ -71,7 +71,8 @@ public function update(Request $request, Project $project)
         'due_date' => 'nullable|date|after_or_equal:start_date',
         'status' => 'required|in:active,completed,canceled',
         'tasks' => 'nullable|array',
-        'tasks.*.status' => 'required|in:not_started,in_progress,completed'
+        'tasks.*.status' => 'required|in:not_started,in_progress,completed',
+        'tasks.*.name' => 'required|string|max:255'
     ]);
 
     $project->update($validatedData);
@@ -79,6 +80,7 @@ public function update(Request $request, Project $project)
     if (!empty($validatedData['tasks'])) {
         foreach ($validatedData['tasks'] as $taskId => $taskData) {
             Task::where('id', $taskId)->update(['status' => $taskData['status']]);
+            Task::where('id', $taskId)->update(['name' => $taskData['name']]);
         }
     }
 

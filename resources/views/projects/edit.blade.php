@@ -70,7 +70,7 @@
                             <div class="row mb-3 align-items-center">
                                 <div class="col-md-6">
                                     <label for="task-{{ $task->id }}" class="form-label">Nama Tugas</label>
-                                    <input type="text" class="form-control" id="task-{{ $task->id }}" name="tasks[{{ $task->id }}][name]" value="{{ $task->name }}" readonly>
+                                    <input type="text" class="form-control" id="task-{{ $task->id }}" name="tasks[{{ $task->id }}][name]" value="{{ $task->name }}">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="task-status-{{ $task->id }}" class="form-label">Status Tugas</label>

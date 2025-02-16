@@ -74,8 +74,8 @@
                 "infoEmpty": "Tidak ada data tersedia",
                 "search": "Cari:",
                 "paginate": {
-                    "next": "Prev",
-                    "previous": "Next"
+                    "next": "Next",
+                    "previous": "Prev"
                 }
             },
             "columnDefs": [
