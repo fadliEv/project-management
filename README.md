@@ -1,4 +1,4 @@
-# 📌 Project Management System | BOL TP-2
+# 📌 Project Management System
 
 ## 📖 Deskripsi Proyek
 Project Management System adalah aplikasi berbasis web yang dirancang untuk **mengelola proyek dan task** secara efisien. Sistem ini memungkinkan user untuk **create, edit, delete, dan monitoring proyek serta task yang terkait** dengan fitur notifikasi untuk deadline yang mendekat.
